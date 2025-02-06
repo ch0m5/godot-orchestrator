@@ -86,6 +86,7 @@ public:
                 _ui = scene->instantiate();
 
                 Dictionary data;
+                data["node"] = this->get_base_node();
                 data["character_name"] = p_context.get_input(0);
                 data["message"] = p_context.get_input(1);
 
@@ -93,8 +94,13 @@ public:
                 for (int i = 0; i < _choices; i++)
                 {
                     Dictionary choice = p_context.get_input(3 + i);
-                    if (choice.has("visible") && choice["visible"])
-                        options[i] = choice["text"];
+                    Dictionary choice_data;
+                    Ref<OScriptNodePin> choice_input_pin = this->_base->find_pin(4 + i, PD_Input);
+                    Ref<OScriptNodePin> choice_output_pin = choice_input_pin->get_connections()[0];
+                    choice_data["node"] = choice_output_pin->get_owning_node();
+                    choice_data["text"] = choice["text"];
+                    choice_data["visible"] = choice.has("visible") && choice["visible"];
+                    options[i] = choice_data;
                 }
                 data["options"] = options;
 
