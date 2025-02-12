@@ -134,6 +134,10 @@ public:
     /// @return the owning graph
     Ref<OScriptGraph> get_owning_graph();
 
+    /// Gets the path of the owning file
+    /// @return the owning filepath
+    String get_owning_filepath() const;  /// @choms Note: UUID for Nodes would make this unnecessary.
+
     /// Get the node's unique identifier
     /// @return the node's unique identifer
     int get_id() const { return _id; }

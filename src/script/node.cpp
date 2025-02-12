@@ -55,6 +55,8 @@ void OScriptNode::_bind_methods()
     ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "pin_data", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_STORAGE),
                  "_set_pin_data", "_get_pin_data");
 
+    ClassDB::bind_method(D_METHOD("get_owning_filepath"), &OScriptNode::get_owning_filepath);
+
     ADD_SIGNAL(MethodInfo("pin_connected", PropertyInfo(Variant::INT, "pin_type"), PropertyInfo(Variant::INT, "index")));
     ADD_SIGNAL(
         MethodInfo("pin_disconnected", PropertyInfo(Variant::INT, "pin_type"), PropertyInfo(Variant::INT, "index")));
@@ -97,6 +99,11 @@ void OScriptNode::_queue_reconstruct()
 Ref<OScriptGraph> OScriptNode::get_owning_graph()
 {
     return _orchestration->find_graph(this);
+}
+
+String OScriptNode::get_owning_filepath() const
+{
+    return dynamic_cast<OScript*>(_orchestration)->get_path();
 }
 
 void OScriptNode::set_id(int p_id)
